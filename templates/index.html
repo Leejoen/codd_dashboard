@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/dashboard.css">
+    <title>Дашборд с картой</title>
+</head>
+<body>
+
+<div id="dashboard">
+    <!-- Фильтры -->
+    <div id="filters">
+        <h2 style="color:white">Рассчитать маршрут</h2>
+        <ul id="filter_list">
+            <li class="filter_elem" id="point_from">
+                <div class='select'>
+                    <select id="from">
+                        <option value="">Выберите начальную точку</option>
+                    </select>
+                <div>
+            </li>
+            <li class="filter_elem" id="point_to">
+                <div class='select'>
+                    <select id="to">
+                        <option value="">Выберите конечную точку</option>
+                    </select>
+                </div>
+            </li>
+            <li class="filter_elem" id="day_of_week">
+                <div class='select'>
+                    <select id="day">
+                        <option>День недели:</option>
+                        <option value="Понедельник">Понедельник</option>
+                        <option value="Вторник">Вторник</option>
+                        <option value="Среда">Среда</option>
+                        <option value="Четверг">Четверг</option>
+                        <option value="Пятница">Пятница</option>
+                        <option value="Суббота">Суббота</option>
+                        <option value="Воскресенье">Воскресенье</option>
+                    </select>
+                </div>
+            </li>
+            <li class="filter_elem" id="transponder">
+                <label style="color:white" for="transponder">Наличие транспондера</label>
+                <div class="item">
+                    <div class="toggle-pill-bw">
+                        <input type="checkbox" id="pill2" name="check">
+                        <label for="pill2" style="margin-top: 20px;"></label>
+                    </div>
+                </div>
+            </li>
+            <li class="filter_elem" id="transponder_type">
+                <div class='select'>
+                    <select id="car">
+                        <option>Тип транспондера: <option>
+                        <option value="T-pass">T-pass</option>
+                        <option value="15-88 М11">15-88 М11</option>
+                        <option value="Главная дорога">Главная дорога</option>
+                        <option value="ЗСД">ЗСД (западный скоростной диаметр)</option>
+                    </select>
+                </div>
+            </li>
+            <li class="filter_elem" id="car_type">
+                <div class='select'>
+                    <select class id="car">
+                        <option>Класс автомобиля:</option>
+                        <option value="1 класс; Легковой транспорт">1 класс - Легковой транспорт</option>
+                        <option value="2 класс; Среднегабаритный транспорт">2 класc - Среднегабаритный транспорт</option>
+                        <option value="3 класс; Грузовые и пассажирские транспортные средства">3 класс - Грузовые и пассажирские транспортные средства</option>
+                        <option value="4 класс; Крупногабаритные транспортные средства и автобусы">4 класс - Крупногабаритные транспортные средства и автобусы</option>
+                    </select>
+                <div>
+            </li>
+            <li class="filter_elem" id="time">
+                <div class='select'>
+                    <select id="car">
+                        <option>Время поездки:</option>
+                    </select>
+                <div>
+            </li>
+            <li class="btn">
+                
+                <button class="glow_button" id="calculateButton">Рассчитать</button>
+                <button id="clearButton">Очистить фильтр</button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Карта -->
+    <div id="map"></div>
+</div>
+
+<!-- Подключение Yandex Maps API -->
+<script src="https://api-maps.yandex.ru/2.1/?apikey=d785f4fe-3239-445d-b035-8948e6996bd7&lang=ru_RU" type="text/javascript"></script>
+
+
+<script>ymaps.ready(init);
+
+    function init() {
+        var map = new ymaps.Map("map", {
+            center: [55.7558, 37.6176], // Центр карты (Москва)
+            zoom: 10
+        });
+    
+        // точки
+        addPointToMap(map,[55.72390114173666, 37.40654759845686],'улица Кубинка (СЗХ)');
+        addPointToMap(map,[55.72881462334504, 37.46825986347136],'Рублёвское шоссе');
+        addPointToMap(map,[55.7335458736344, 37.50116520366601],'Кутузовский проспект (из центра) - съезд');
+        addPointToMap(map,[55.735664608378784, 37.51265042266608],'Кутузовский проспект (из центра) - въезд');
+        addPointToMap(map,[55.75055341126577, 37.53218897423594],'ТТК (Москва-Сити)');
+        addPointToMap(map,[55.749846945215474, 37.52954431614676],'улица Эрисмана');
+        addPointToMap(map,[55.748378755519056, 37.52352074525071],'Шелепихинская набережная');
+        addPointToMap(map,[55.74544584639576, 37.53250556880673],'Пресненская набережная');
+        addPointToMap(map,[55.73594926245727, 37.51669729942408],'Кутузовский проспект (в центр, м. Парк Победы)');
+        addPointToMap(map,[55.73994269492299, 37.37246489159132],'МКАД 57 км');
+        addPointToMap(map,[55.7266971340468, 37.37923478714475],'МКАД 56 км');
+        addPointToMap(map,[55.708321280149306, 37.31813504290098],'Съезд с улицы Чистяковой');
+        addPointToMap(map,[55.720655672877484, 37.31645598005749],'Съезд с Рублевского проезда');
+        addPointToMap(map,[55.732519014771306, 37.38218828242628],'Молодогвардейская улица');
+        addPointToMap(map,[55.69015497104531, 37.27274894415653],'Подушкинское шоссе (юг от М1)');
+        addPointToMap(map,[55.6966936485325, 37.26965903937183],'Подушкинское шоссе (север от М1)');
+        addPointToMap(map,[55.69043375104677, 37.2566342323957],'Красногорское шоссе (пересечение с Северной улицей)');
+        addPointToMap(map,[55.66086861075618, 37.210293170133255],'Можайское шоссе (Дубки)');
+        addPointToMap(map,[55.620287205289365, 37.09865251368393],'Крёкшинское шоссе');
+        addPointToMap(map,[55.66098384531774, 37.23037755123574],'Можайское шоссе (Акулово)');
+        addPointToMap(map,[55.62607098380954, 37.19252446625943],'Минское шоссе (восток)');
+        addPointToMap(map,[55.626270793573944, 37.15112590974645],'Рожновка');
+        addPointToMap(map,[55.626270793573944, 37.15112590974645],'Рожновка');
+        addPointToMap(map,[55.62079366448999, 37.155032644759935],'Кокошкинское шоссе');
+        addPointToMap(map,[55.621859102633515, 37.1336760890243],'Ликино');
+        addPointToMap(map,[55.621859102633515, 37.1336760890243],'Ликино');
+        addPointToMap(map,[55.620287205289365, 37.09865251368393],'Крёкшинское шоссе');
+        addPointToMap(map,[55.620287205289365, 37.09865251368393],'Крёкшинское шоссе');
+        addPointToMap(map,[55.61370305849855, 37.09953428989552],'Придорожная улица');
+        addPointToMap(map,[55.606249092583106, 37.05172432593341],'Минская улица');
+        addPointToMap(map,[55.606249092583106, 37.05172432593341],'Минская улица');
+        addPointToMap(map,[55.603859733391886, 37.002882065555184],'Петровское шоссе');
+        addPointToMap(map,[55.566540781000995, 36.6984630928045],'Наро-Фоминское шоссе (юг от М1)');
+        addPointToMap(map,[55.572619987622396, 36.69627709245686],'Наро-Фоминское шоссе (север от М1)');
+        addPointToMap(map,[55.566540781000995, 36.6984630928045],'Наро-Фоминское шоссе (юг от М1)');
+        addPointToMap(map,[55.572619987622396, 36.69627709245686],'Наро-Фоминское шоссе (север от М1)');
+       }
+    
+    // Функция для обновления фильтров
+    function updateFilters(pointName) {
+        var fromSelect = document.getElementById('from');
+        var toSelect = document.getElementById('to');
+    
+        // Если поле "Откуда" пустое, заполняем его, если нет — заполняем поле "Куда"
+        if (!fromSelect.value) {
+            fromSelect.innerHTML = `<option value="${pointName}">${pointName}</option>`;
+        } else if (!toSelect.value) {
+            toSelect.innerHTML = `<option value="${pointName}">${pointName}</option>`;
+        }
+    }
+    
+    // Функция очистки фильтров
+    function clearFilters() {
+        document.getElementById('from').innerHTML = '<option value="">Выберите точку</option>';
+        document.getElementById('to').innerHTML = '<option value="">Выберите точку</option>';
+        document.getElementById('day').selectedIndex = 0;
+        document.getElementById('transponder').checked = false;
+        document.getElementById('car').selectedIndex = 0;
+    }
+    
+    // Добавляем обработчик для кнопки "Очистить фильтр"
+    document.getElementById('clearButton').addEventListener('click', clearFilters);
+    
+    // Функция для добавления точки на карту
+    function addPointToMap(map, coords, name) {
+        // Создаем метку с переданными координатами и названием
+        var placemark = new ymaps.Placemark(coords, {
+            balloonContent: name
+        });
+    
+        // Добавляем метку на карту
+        map.geoObjects.add(placemark);
+    
+        // Обработчик клика на метку для передачи названия в фильтры
+        placemark.events.add('click', function () {
+            updateFilters(name);
+        });
+    }
+    
+    function addLineToMap(map, coords, name) {
+        // Создаем линию с переданными координатами
+        var polyline = new ymaps.Polyline(coords, {
+            // Описание содержимого всплывающего окна при клике
+            balloonContent: name
+        }, {
+            // Задаем стиль линии (цвет, ширина и т.д.)
+            strokeColor: "#0000FF", // Синий цвет линии
+            strokeWidth: 4,         // Ширина линии
+            strokeOpacity: 0.7      // Прозрачность линии
+        });
+    
+        // Добавляем линию на карту
+        map.geoObjects.add(polyline);
+    
+        // Обработчик клика на линию для показа информации в балуне
+        polyline.events.add('click', function () {
+            polyline.balloon.open();
+        });
+    }
+    
+    </script>
+
+</body>
+</html>

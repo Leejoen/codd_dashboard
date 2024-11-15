@@ -1,0 +1,181 @@
+/* @font-face {
+    font-family: 'MoscowSans';
+    font-style: normal;
+    src: url('/fonts/Moscow Sans/MoscowSans.woff2') format('woff2')
+} */
+
+@font-face {
+	font-family: 'Moscow Sans Regular';
+	src: local('Moscow Sans Regular'),
+		url('fonts/MoscowSans/moscowsansregular.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Moscow Sans Regular';
+}
+
+#dashboard {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+#filters {
+    width: 25%;
+    padding: 20px;
+    background-color: #63a744;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+#filters h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-weight: 100;
+}
+select, button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+}
+button {
+    margin-top: 15px;
+    color: white;
+
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+#clearButton {
+    background-color: #8d2b3b; /* Красный цвет для кнопки "Очистить" */
+}
+
+#calculateButton{
+
+    background-color:#47872f;
+}
+
+#map {
+    width: 75%;
+    height: 100vh;
+}
+
+ul, li{
+    list-style: none;
+}
+
+ul#filter_list{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+li.filter_elem{
+    margin-bottom:10px; 
+}
+
+select {
+    /* Reset Select */
+    appearance: none;
+    /* outline: 10px red; */
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    flex: 1;
+    padding: 0 1em;
+    color: black;
+    background-color: var(--darkgray);
+    background-image: none;
+    cursor: pointer;
+    outline: none;
+    
+  }
+  /* Remove IE arrow */
+  select::-ms-expand {
+    display: none;
+  }
+  /* Custom Select wrapper */
+  .select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    border-radius: .25em;
+    overflow: hidden;
+    background-color:#ffffff;
+  }
+  /* Arrow */
+  .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    background-color: #8ED275;
+    transition: .25s all ease;
+    pointer-events: none;
+  }
+  /* Transition */
+  .select:hover::after {
+    color: hwb(138 10% 56%);
+  }
+
+.filter_label{
+    margin-bottom:10px
+}
+
+option{
+    outline: none
+}
+
+#transponder{
+    display: flex;
+    flex-direction: row;
+    flex-direction: row;
+    align-items: center;
+}
+
+.item{
+    margin-left: 20px;
+}
+
+.toggle-pill-bw input[type="checkbox"] {
+    display: none;
+  }
+  .toggle-pill-bw input[type="checkbox"] + label {
+    display: block;
+    position: relative;
+    width: 3em;
+    height: 1.6em;
+    margin-bottom: 20px;
+    background: #50565a;
+    border-radius: 1em;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-transition: background 0.1s ease-in-out;
+    transition: background 0.1s ease-in-out;
+  }
+  .toggle-pill-bw input[type="checkbox"] + label:before {
+    content: "";
+    display: block;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 1em;
+    background: #f7f2f2;
+    position: absolute;
+    left: 0.2em;
+    top: 0.2em;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+  }
+  .toggle-pill-bw input[type="checkbox"]:checked + label {
+    background: #8ED275;
+  }
+  .toggle-pill-bw input[type="checkbox"]:checked + label:before {
+    left: 1.6em;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
